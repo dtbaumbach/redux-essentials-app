@@ -1,4 +1,7 @@
 import React from 'react'
+import { PostsList } from './features/posts/PostsList'
+import { AddPostForm } from './features/posts/AddPostForm'
+import { SinglePostPage } from './features/posts/SinglePostPage'
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,10 +22,14 @@ function App() {
             path="/"
             render={() => (
               <section>
-                <h2>Welcome to the Redux Essentials example app!</h2>
+                <React.Fragment>
+                  <AddPostForm />
+                  <PostsList />
+                </React.Fragment>
               </section>
             )}
           />
+          <Route exact path='/posts/:postId' component={SinglePostPage} />
           <Redirect to="/" />
         </Switch>
       </div>
