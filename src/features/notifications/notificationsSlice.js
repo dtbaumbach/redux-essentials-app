@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { client } from "../../api/client";
 
-const fetchNotifications = createAsyncThunk(
+export const fetchNotifications = createAsyncThunk(
     'notifications/getNotifications',
     async (_,{ getState }) => {
         const allNotifications = selectAllNotifications(getState())
@@ -17,14 +17,25 @@ const fetchNotifications = createAsyncThunk(
 const notificationsSlice = createSlice({
     name: 'notifications',
     initialState: [],
-    reducers: {},
+    reducers: {
+        allNotificationsRead(state, action) {
+            state.forEach(notification => {
+                notification.read = true
+            })
+        }
+    },
     extraReducers(builder){
         builder.addCase(fetchNotifications.fulfilled, (state, action) => {
             state.push(...action.payload)
+            state.forEach(notification => {
+                notification.isNew = !notification.read
+            })
             state.sort((a, b) => b.date.localeCompare(a.date))
         })
     }
 })
+
+export const { allNotificationsRead } = notificationsSlice.actions
 
 export default notificationsSlice.reducer
 

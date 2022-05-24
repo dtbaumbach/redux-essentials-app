@@ -49,7 +49,7 @@ export const PostsList = () => {
         .sort((a, b) => b.date.localeCompare(a.date))
 
         content = orderedPosts.map(post => (
-            <PostExcerpt ket={post.id} post={post} />
+            <PostExcerpt key={post.id} post={post} />
         ))
     }
     else if(postStatus === 'failed'){
