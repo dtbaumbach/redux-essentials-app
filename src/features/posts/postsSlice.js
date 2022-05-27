@@ -49,7 +49,7 @@ const postsSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchPosts.pending, (state, action) => {
+      .addCase(fetchPosts.pending, (state, _action) => {
         state.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -76,6 +76,6 @@ export const {
 } = postsAdapter.getSelectors(state => state.posts)
 
 export const selectPostByUser = createSelector(
-  [selectAllPosts, (state, userId) => userId],
+  [selectAllPosts, (_state, userId) => userId],
   (posts, userId) => posts.filter(post => post.user === userId)
 )
