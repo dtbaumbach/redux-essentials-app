@@ -23,17 +23,19 @@ const notificationsSlice = createSlice({
     initialState: notificationsAdapter.getInitialState(),
     reducers: {
         allNotificationsRead(state, action) {
-            Object.values(state.entities).forEach(notification => {
+            const notificationsArray = Object.values(state.entities)
+            notificationsArray.map(notification => (
                 notification.read = true
-            })
+            ))
         }
     },
     extraReducers(builder){
         builder.addCase(fetchNotifications.fulfilled, (state, action) => {
             notificationsAdapter.upsertMany(state, action.payload)
-            Object.values(state.entities).forEach(notification => {
+            const notificationsArray = Object.values(state.entities)
+            notificationsArray.map(notification => (
                 notification.isNew= !notification.read
-            })
+            ))
         })
     }
 })
